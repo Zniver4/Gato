@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public TextMeshProUGUI[] textList;
     private string playerSide;
+    public TextMeshProUGUI gameOverText;
 
     private void Awake()
     {
@@ -79,6 +80,8 @@ public class GameManager : MonoBehaviour
         {
             textList[i].GetComponentInParent<Button>().interactable = false;
         }
+        gameOverText.gameObject.SetActive(true);
+        gameOverText.text = playerSide + " WINS";
     }
 
     void ChangeSides()
