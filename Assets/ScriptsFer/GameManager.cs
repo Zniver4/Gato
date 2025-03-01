@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +7,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI[] textList;
     private string playerSide;
     public TextMeshProUGUI gameOverText;
+
+    int turns = 0;
 
     private void Awake()
     {
@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
 
     public void EndTurn()
     {
+        turns++;
+
         if (textList[0].text == playerSide && textList[1].text == playerSide && textList[2].text == playerSide)
         {
             GameOver();
@@ -72,6 +74,13 @@ public class GameManager : MonoBehaviour
         }
 
         ChangeSides();
+
+        if(turns >= 9)
+        {
+            gameOverText.gameObject.SetActive(true);
+
+            gameOverText.text = "ItÅLs a Draw!!!";
+        }
     }
 
     void GameOver()
@@ -80,8 +89,9 @@ public class GameManager : MonoBehaviour
         {
             textList[i].GetComponentInParent<Button>().interactable = false;
         }
+
         gameOverText.gameObject.SetActive(true);
-        gameOverText.text = playerSide + " WINS";
+        gameOverText.text = playerSide + " WINS!!!";
     }
 
     void ChangeSides()
