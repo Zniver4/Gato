@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class detectionmanager : MonoBehaviour
 {
@@ -12,6 +13,24 @@ public class detectionmanager : MonoBehaviour
         ResetBoard();
     }
 
+    IEnumerator GetText()
+    {
+        UnityWebRequest www = UnityWebRequest.Get("http://localhost/gato/test.php");
+        yield return www.SendWebRequest();
+        
+        if (www.isNetworkError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            // muestra resultados
+            Debug.Log(www.downloadHandler.text);
+            
+            // muestra en binario
+            byte[] result = www.downloadHandler.data;
+        }
+    }
     public void CellClicked(int x, int y)
     {
         if (board[x, y] == 0)
