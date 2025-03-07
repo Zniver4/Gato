@@ -1,5 +1,7 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -14,6 +16,11 @@ public class GameManager : MonoBehaviour
     {
         SetGameManagerReferenceOnButtons();
         playerSide = "X";
+    }
+
+    private void Start()
+    {
+        StartCoroutine(GetText());
     }
 
     void SetGameManagerReferenceOnButtons()
@@ -97,5 +104,25 @@ public class GameManager : MonoBehaviour
     void ChangeSides()
     {
         playerSide = (playerSide == "X") ? "O" : "X";
+    }
+
+    IEnumerator GetText()
+    {
+        UnityWebRequest www = UnityWebRequest.Get("http://localhost/gato.php?action=2&id=1");
+        yield return www.Send();
+
+        if (www.isNetworkError)
+        {
+            Debug.Log(www.error);
+        }
+
+        else
+        {
+            //Show Result as Text
+            Debug.Log(www.downloadHandler.text);
+
+            //Or Retrive Results as Binary Data
+            byte[] results = www.downloadHandler.data;
+        }
     }
 }
