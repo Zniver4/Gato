@@ -13,6 +13,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/GatoDb.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -87,7 +90,11 @@
       <option name="presentableId" value="Default" />
       <updated>1741390193695</updated>
       <workItem from="1741390195813" duration="1030000" />
-      <workItem from="1741391246126" duration="6000" />
+      <workItem from="1741391249503" duration="858000" />
+      <workItem from="1741392130420" duration="184000" />
+      <workItem from="1741392326569" duration="10000" />
+      <workItem from="1741392337037" duration="13000" />
+      <workItem from="1741392360058" duration="2730000" />
     </task>
     <servers />
   </component>
