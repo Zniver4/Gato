@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -9,6 +10,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI[] textList;
     private string playerSide;
     public TextMeshProUGUI gameOverText;
+    GatoDb gameData;
 
     int turns = 0;
 
@@ -82,13 +84,12 @@ public class GameManager : MonoBehaviour
 
         ChangeSides();
 
-        if(turns >= 9)
+        if (turns >= 9)
         {
             gameOverText.gameObject.SetActive(true);
 
-            gameOverText.text = "It�Ls a Draw!!!";
+            gameOverText.text = "It's a Draw!!!";
         }
-        
     }
 
     void GameOver()
@@ -121,6 +122,16 @@ public class GameManager : MonoBehaviour
         {
             //Show Result as Text
             Debug.Log(www.downloadHandler.text);
+
+            gameData = JsonUtility.FromJson<GatoDb>(www.downloadHandler.text);
+
+            Debug.Log("Ronda: " + gameData.round);
+            Debug.Log("Jugador actual: " + gameData.actual);
+            Debug.Log("Score1: " + gameData.score1);
+            Debug.Log("Score2: " + gameData.score2);
+            Debug.Log("Jugador 1: " + gameData.p1);
+            Debug.Log("Jugador 2: " + gameData.p2);
+            Debug.Log("Board: " + string.Join(", ", gameData.board));
 
             //Or Retrive Results as Binary Data
             byte[] results = www.downloadHandler.data;
@@ -160,7 +171,6 @@ public class GameManager : MonoBehaviour
 
         else
         {
-            JsonUtility.ToJson("http://localhost/gato/gato.php?action=3&id=1");
             //Show Result as Text
             Debug.Log(www.downloadHandler.text);
 
