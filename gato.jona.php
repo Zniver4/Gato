@@ -14,7 +14,7 @@ class Gato {
         $this->board = array(0, 0, 0, 0, 0, 0, 0, 0, 0);
         $this->p1 = "id1";
         $this->p2 = "id2";
-        $this->actual = 0;
+        $this->actual = 0; 
         $this->round = 0;
         $this->score1 = 0;
         $this->score2 = 0;
@@ -115,12 +115,12 @@ class Gato {
         if ($player == 0) {
             return "error: invalid player";
         }
-        if ($player != ($this->actual + 1)) {
+        if ($player != $this->actual) {
             return "error: not your turn";
         }
         if ($this->board[$pos] == 0) {
             $this->board[$pos] = $player;
-            $this->actual = ($this->actual + 1) % 2; // Cambiar turno
+            $this->actual = ($this->actual % 2) + 1; // Cambiar turno
             return "OK";
         } else {
             return "error: position taken";
@@ -129,62 +129,6 @@ class Gato {
 
     public function isWin() {
         // validaciones
-        if ($this->board[0] == $this->actual && $this->board[1] == $this->actual && $this->board[2] == $this->actual) {
-            $this->gameOver();
-            return;
-        }
-
-        if ($this->board[3] == $this->actual && $this->board[4] == $this->actual && $this->board[5] == $this->actual) {
-            $this->gameOver();
-            return;
-        }
-
-        if ($this->board[6] == $this->actual && $this->board[7] == $this->actual && $this->board[8] == $this->actual) {
-            $this->gameOver();
-            return;
-        }
-
-        if ($this->board[0] == $this->actual && $this->board[4] == $this->actual && $this->board[8] == $this->actual) {
-            $this->gameOver();
-            return;
-        }
-
-        if ($this->board[2] == $this->actual && $this->board[4] == $this->actual && $this->board[6] == $this->actual) {
-            $this->gameOver();
-            return;
-        }
-
-        if ($this->board[0] == $this->actual && $this->board[3] == $this->actual && $this->board[6] == $this->actual) {
-            $this->gameOver();
-            return;
-        }
-
-        if ($this->board[1] == $this->actual && $this->board[4] == $this->actual && $this->board[7] == $this->actual) {
-            $this->gameOver();
-            return;
-        }
-
-        if ($this->board[2] == $this->actual && $this->board[5] == $this->actual && $this->board[8] == $this->actual) {
-            $this->gameOver();
-            return;
-        }
-
-        // Cambia de jugador
-        $this->changeSide();
-
-        // verifica si el juego es empate
-        if ($this->turns > 9) {
-            $this->gameOverText("¡Empate!");
-        }
-    }
-
-    private function gameOver() {
-        $this->gameOverText = $this->playerSide . " WIN!";
-        echo $this->gameOverText . PHP_EOL;
-    }
-
-    private function changeSide() {
-        $this->playerSide = ($this->playerSide == 'X') ? 'O' : 'X';
     }
 }
 
