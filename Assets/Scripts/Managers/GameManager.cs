@@ -1,6 +1,5 @@
 using System.Collections;
 using TMPro;
-using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -8,21 +7,28 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public TextMeshProUGUI[] textList;
-    private string playerSide;
     public TextMeshProUGUI gameOverText;
+
+    private string playerSide;
+    private string playerID;
+    
     GatoDb gameData;
+    SetID setID;
 
     int turns = 0;
 
     private void Awake()
     {
         SetGameManagerReferenceOnButtons();
-        playerSide = "X";
+
+        SetID.SetIDGame += SetMySide;
+
+        
     }
 
     private void Start()
     {
-        StartCoroutine(GetStatus());
+        //StartCoroutine(GetStatus());
     }
 
     void SetGameManagerReferenceOnButtons()
@@ -82,7 +88,7 @@ public class GameManager : MonoBehaviour
             GameOver();
         }
 
-        ChangeSides();
+        //ChangeSides();
 
         if (turns >= 9)
         {
@@ -102,15 +108,15 @@ public class GameManager : MonoBehaviour
         gameOverText.gameObject.SetActive(true);
         gameOverText.text = playerSide + " WINS!!!";
     }
-
+/*
     void ChangeSides()
     {
         playerSide = (playerSide == "X") ? "O" : "X";
-    }
+    }*/
 
     IEnumerator GetStatus()
     {
-        UnityWebRequest www = UnityWebRequest.Get("http://localhost/gato/gato.php?action=2");
+        UnityWebRequest www = UnityWebRequest.Get("http://localhost/gato/gato.php?action=1");
         yield return www.Send();
 
         if (www.isNetworkError)
@@ -140,7 +146,7 @@ public class GameManager : MonoBehaviour
     
     IEnumerator TrowStatus()
     {
-        UnityWebRequest www = UnityWebRequest.Get("http://localhost/gato/gato.php?action=2&id=1");
+        UnityWebRequest www = UnityWebRequest.Get("http://localhost/gato/gato.php?action=2&p1=1");
         yield return www.Send();
 
         if (www.isNetworkError)
@@ -150,7 +156,6 @@ public class GameManager : MonoBehaviour
 
         else
         {
-            JsonUtility.FromJson<GatoDb>("http://localhost/gato/gato.php?action=2&id=1");
             //Show Result as Text
             Debug.Log(www.downloadHandler.text);
 
@@ -161,7 +166,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator Throw()
     {
-        UnityWebRequest www = UnityWebRequest.Get("http://localhost/gato/gato.php?action=3&id=id1&pos=4");
+        UnityWebRequest www = UnityWebRequest.Get("http://localhost/gato/gato.php?action=3&id=id2&pos=4");
         yield return www.Send();
 
         if (www.isNetworkError)
@@ -177,5 +182,19 @@ public class GameManager : MonoBehaviour
             //Or Retrive Results as Binary Data
             byte[] results = www.downloadHandler.data;
         } 
+    }
+
+    void SetMySide(string MyID)
+    {
+        playerID = MyID;
+
+        if (playerID == "id1")
+        {
+            playerSide = "X";
+        }
+
+        else { playerSide = "O"; }
+
+        print(playerSide);
     }
 }
