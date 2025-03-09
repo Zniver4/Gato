@@ -29,6 +29,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;&lt;unknown&gt;&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -94,7 +95,9 @@
       <workItem from="1741392130420" duration="184000" />
       <workItem from="1741392326569" duration="10000" />
       <workItem from="1741392337037" duration="13000" />
-      <workItem from="1741392360058" duration="2730000" />
+      <workItem from="1741392360058" duration="3210000" />
+      <workItem from="1741412342984" duration="4347000" />
+      <workItem from="1741548308001" duration="5568000" />
     </task>
     <servers />
   </component>
