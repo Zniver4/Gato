@@ -15,7 +15,7 @@ class Gato {
         $this->p1 = "id1";
         $this->p2 = "id2";
         $this->actual = 0; 
-        $this->round = 0;
+        $this->round = 1;
         $this->score1 = 0;
         $this->score2 = 0;
         $this->saveDb();
