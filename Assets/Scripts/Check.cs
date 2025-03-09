@@ -25,21 +25,21 @@ public class Check : MonoBehaviour
 
     public void setSpace()
     {
-        if(MyID == "id2" && turn % 2 != 0)
+        if(MyID == "id2" && turn % 2 == 0)
         {
             buttonText.text = "O";
             button.interactable = false;
             OnPress.Invoke(checkPosition);
-            turn++;
+            turn = 1;
             gameManager.EndTurn();
         }
 
-        if (MyID == "id1" && turn % 2 == 0)
+        if (MyID == "id1" && turn % 2 != 0)
         {
             buttonText.text = "X";
             button.interactable = false;
             OnPress.Invoke(checkPosition);
-            turn++;
+            turn = 2;
             print(turn);
             gameManager.EndTurn();
         }

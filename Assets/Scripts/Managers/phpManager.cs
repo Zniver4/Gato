@@ -1,25 +1,19 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
+using TMPro;
 
 public class phpManager : MonoBehaviour
 {
     int position;
     int actual = 1;
-
     string MyID;
-
+    public TextMeshProUGUI turnText; // Asume que tienes un Text en el UI para mostrar el turno
 
     void Awake()
     {
         Check.OnPress += SetPosition;
         SetID.SetIDGame += ID;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     void SetPosition(int chekPosition)
@@ -44,14 +38,31 @@ public class phpManager : MonoBehaviour
         {
             Debug.Log(www.error);
         }
-
         else
         {
             //Show Result as Text
             Debug.Log(www.downloadHandler.text);
 
-            //Or Retrive Results as Binary Data
-            byte[] results = www.downloadHandler.data;
+            // Parse the JSON response to get the current turn
+            var jsonResponse = www.downloadHandler.text;
+            var response = JsonUtility.FromJson<ServerResponse>(jsonResponse);
+
+            if (response.result == "OK")
+            {
+                // Update the UI with the current turn
+                turnText.text = "Turno actual: " + response.actual;
+            }
+            else
+            {
+                Debug.Log("Error en el turno: " + response.result);
+            }
         }
+    }
+
+    [System.Serializable]
+    public class ServerResponse
+    {
+        public string result;
+        public int actual;
     }
 }
