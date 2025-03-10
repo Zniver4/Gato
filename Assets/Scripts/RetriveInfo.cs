@@ -2,9 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class RetriveInfo : MonoBehaviour
+public class RetrieveInfo : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(InfoPHP());
@@ -12,21 +11,23 @@ public class RetriveInfo : MonoBehaviour
 
     IEnumerator InfoPHP()
     {
-        UnityWebRequest www = UnityWebRequest.Get("http://localhost/gato/gato.php?action=1");
-        yield return www.Send();
-
-        if (www.isNetworkError)
+        using (UnityWebRequest www = UnityWebRequest.Get("http://localhost/gato/gato.php?action=1"))
         {
-            Debug.Log(www.error);
-        }
+            yield return www.SendWebRequest();
 
-        else
-        {
-            //Show Result as Text
-            Debug.Log(www.downloadHandler.text);
+            if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError($"Error en la solicitud: {www.error}");
+            }
+            else
+            {
+                // Mostrar resultado como texto
+                string responseText = www.downloadHandler.text;
+                Debug.Log($"Respuesta del servidor: {responseText}");
 
-            //Or Retrive Results as Binary Data
-            byte[] results = www.downloadHandler.data;
+                // O recuperar los datos binarios si es necesario
+                byte[] results = www.downloadHandler.data;
+            }
         }
     }
 }
