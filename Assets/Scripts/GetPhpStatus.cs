@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -31,20 +32,23 @@ public class GetPhpStatus : MonoBehaviour
 
     IEnumerator GetPHPStatus()
     {
-        using (UnityWebRequest www = UnityWebRequest.Get("http://localhost/gato/gato.php?action=2"))
+        while (true)
         {
-            yield return www.SendWebRequest();
-
-            if (www.result == UnityWebRequest.Result.Success)
+            using (UnityWebRequest www = UnityWebRequest.Get("http://localhost/gato/gato.php?action=2"))
             {
-                Debug.Log("JSON recibido: " + www.downloadHandler.text);
+                yield return www.SendWebRequest();
 
-                // ✅ Ahora sí actualiza la variable de clase
-                gatoDb = JsonUtility.FromJson<GatoDb>(www.downloadHandler.text);
-            }
-            else
-            {
-                Debug.LogError("Error al descargar JSON: " + www.error);
+                if (www.result == UnityWebRequest.Result.Success)
+                {
+                    Debug.Log("JSON recibido: " + www.downloadHandler.text);
+
+                    // ✅ Ahora sí actualiza la variable de clase
+                    gatoDb = JsonUtility.FromJson<GatoDb>(www.downloadHandler.text);
+                }
+                else
+                {
+                    Debug.LogError("Error al descargar JSON: " + www.error);
+                }
             }
         }
     }
@@ -57,9 +61,12 @@ public class GetPhpStatus : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
 
-        Debug.Log("✅ Datos recibidos, actualizando tablero...");
-        SetStatusBoard();
-        yield return new WaitForSeconds(2f);
+        while (true)
+        {
+            Debug.Log("✅ Datos recibidos, actualizando tablero...");
+            SetStatusBoard();
+            yield return new WaitForSeconds(2f);
+        }
     }
 
 
@@ -84,12 +91,12 @@ public class GetPhpStatus : MonoBehaviour
 
             if (gatoDb.board[arrayPos] == 1)
             {
-                Board[arrayPos].GetComponentInChildren<Text>().text = "X";
+                Board[arrayPos].GetComponentInChildren<TextMeshProUGUI>().text = "X";
                 Board[arrayPos].interactable = false;
             }
             else if (gatoDb.board[arrayPos] == 2)
             {
-                Board[arrayPos].GetComponentInChildren<Text>().text = "O";
+                Board[arrayPos].GetComponentInChildren<TextMeshProUGUI>().text = "O";
                 Board[arrayPos].interactable = false;
             }
         }
