@@ -1,10 +1,41 @@
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+
+[System.Serializable]
+class ChatDB
+{
+    public string text;
+}
 
 public class ChatManager : MonoBehaviour
 {
-    public string baseUrl = "http://chat_u3d.test/chat.php/";
+    [SerializeField]
+    List<ChatDB> messageList = new List<ChatDB>();
+
+    public TMP_InputField AnimeUserMessage;
+    public TextMeshProUGUI textMeshProUGUI;
+    public string baseUrl = "http://localhost/u3d_chat/chat.php/";
+
+
+    public void SendMessageToChat(string text)
+    {
+        ChatDB newMessage = new ChatDB { text = text };
+        messageList.Add(newMessage);
+        UpdateChatUI();
+        Debug.Log("Mensaje recibido: " + text);
+    }
+
+    private void UpdateChatUI()
+    {
+        textMeshProUGUI.text = "";
+        foreach (var msg in messageList)
+        {
+            textMeshProUGUI.text += msg.text + "\n";
+        }
+    }
 
     public void getRooms()
     {
@@ -14,13 +45,26 @@ public class ChatManager : MonoBehaviour
     public void getMessages(string room)
     {
         StartCoroutine(GetRequest(baseUrl + "?action=2&room=" + room));
+        
     }
 
-    public void sendAnimeMessage(string message)
+    public void SendMessageToChat()
+    {
+        ChatDB message1 = new ChatDB();
+
+        textMeshProUGUI.text = message1.text;
+
+        messageList.Add(message1);
+    }
+
+    public void Message()
     {
         string room = "anime",
-            user = "frank";
+            user = "prueba",
+            message = AnimeUserMessage.text.ToString();
+        Debug.Log(message);
         StartCoroutine(GetRequest(baseUrl + "?action=3&room=" + room + "&username=" + user + "&message=" + message));
+        AnimeUserMessage.text = "";
     }
 
     IEnumerator GetRequest(string uri)
@@ -29,6 +73,16 @@ public class ChatManager : MonoBehaviour
         {
             // Request and wait for the desired page.
             yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError("Error en la petición: " + webRequest.error);
+            }
+            else
+            {
+                string responseText = webRequest.downloadHandler.text;
+                SendMessageToChat(responseText); // Ahora sí enviamos el texto al chat
+            }
 
             switch (webRequest.result)
             {
@@ -45,5 +99,4 @@ public class ChatManager : MonoBehaviour
             }
         }
     }
-
 }
