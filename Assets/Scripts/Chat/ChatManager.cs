@@ -44,17 +44,17 @@ public class ChatManager : MonoBehaviour
 
     public void getMessages(string room)
     {
+        messageList.Clear();
         StartCoroutine(GetRequest(baseUrl + "?action=2&room=" + room));
-        
     }
 
     public void SendMessageToChat()
     {
-        ChatDB message1 = new ChatDB();
+        ChatDB message0 = new ChatDB();
 
-        textMeshProUGUI.text = message1.text;
+        textMeshProUGUI.text = message0.text;
 
-        messageList.Add(message1);
+        messageList.Add(message0);
     }
 
     public void Message()
