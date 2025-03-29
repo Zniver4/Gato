@@ -16,7 +16,7 @@ public class Check : MonoBehaviour
 
     public int checkPosition;
 
-    private GameManager gameManager;
+    private GameManagerJs gameManager;
 
     GatoDb gatoDb;
     SetID setID;
@@ -51,7 +51,7 @@ public class Check : MonoBehaviour
         //print("Ckeck ID: " + MyID);
     }
 
-    public void setGameManagerReference(GameManager manager)
+    public void setGameManagerReference(GameManagerJs manager)
     {
         gameManager = manager;
     }

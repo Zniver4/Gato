@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < textList.Length; i++)
         {
-            textList[i].GetComponentInParent<Check>().setGameManagerReference(this);
+            //textList[i].GetComponentInParent<Check>().setGameManagerReference(this);
         }
     }
 

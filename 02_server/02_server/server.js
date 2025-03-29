@@ -22,7 +22,7 @@ class Gato {
         this.p1 = "id1";
         this.p2 = "id2";
         this.actual = Math.floor(Math.random() * 2) + 1;
-        this.round = 0;
+        this.round = 1;
         this.score1 = 0;
         this.score2 = 0;
         this.saveDb();
@@ -156,6 +156,11 @@ const gato = new Gato();
 app.get("/", (req, res) => {
     res.send("Hello world");
 });
+
+app.get("/action/db", (req,res) => {
+    const db = fs.readFileSync(gato.db, "utf8");
+    res.send(db);
+}); 
 
 app.get("/action/init", (req, res) => {
     gato.init();
