@@ -14,7 +14,7 @@ public class GatoDb
     public int[] board;
     public string p1;
     public string p2;
-}
+}   
 
 public class GetPhpStatus : MonoBehaviour
 {
