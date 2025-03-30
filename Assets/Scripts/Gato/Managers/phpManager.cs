@@ -19,7 +19,7 @@ public class phpManager : MonoBehaviour
     {
         position = chekPosition;
 
-        StartCoroutine(SetInPHP());
+        //StartCoroutine(SetInPHP());
         //print("Position in index: " + position);
     }
 
@@ -28,11 +28,11 @@ public class phpManager : MonoBehaviour
         MyID = IDGame;
     }
 
-    IEnumerator SetInPHP()
+    /*IEnumerator SetInPHP()
     {
         UnityWebRequest www = UnityWebRequest.Get("http://localhost/gato/gato.php?action=3&id=" + MyID + "&pos=" + position);
         yield return www.Send();
-    }
+    }*/
 
     [System.Serializable]
     public class ServerResponse

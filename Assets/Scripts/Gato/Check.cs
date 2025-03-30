@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -16,16 +16,21 @@ public class Check : MonoBehaviour
 
     public int checkPosition;
 
-    private GameManagerJs gameManager;
+    private GameManager gameManager;
 
-    GatoDb gatoDb;
+    GatoDbJs gatoDb;
     SetID setID;
-    phpManager phpManager;
+    //phpManager phpManager;
 
-    private void Awake()
+    private void Start()
     {
+        StartCoroutine(GetDataBasejs());
         SetID.SetIDGame += SetMyID;
-        StartCoroutine(GetGatoDB());
+    }
+
+    public void setGameManagerReference(GameManager manager)
+    {
+        gameManager = manager;
     }
 
     public void setSpace()
@@ -48,27 +53,27 @@ public class Check : MonoBehaviour
     void SetMyID(string setmyID)
     {
         MyID = setmyID;
-        //print("Ckeck ID: " + MyID);
+        print("Ckeck ID: " + MyID);
+        Debug.Log("GatoDbJs Actual: " + gatoDb.actual);
     }
 
-    public void setGameManagerReference(GameManagerJs manager)
+    IEnumerator GetDataBasejs()
     {
-        gameManager = manager;
-    }
+        using UnityWebRequest JsDataBase = UnityWebRequest.Get("http://localhost:8080/action/data");
+        {
+            yield return JsDataBase.SendWebRequest();
 
-    IEnumerator GetGatoDB()
-    {
-        UnityWebRequest www = UnityWebRequest.Get("http://localhost/gato/gato.php?action=2");
-        yield return www.Send();
+            if (JsDataBase.result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log("JSON recibido: " + JsDataBase.downloadHandler.text);
 
-        gatoDb = JsonUtility.FromJson<GatoDb>(www.downloadHandler.text);
-
-        /*Debug.Log("Ronda: " + gatoDb.round);
-        Debug.Log("Jugador actual: " + gatoDb.actual);
-        Debug.Log("Score1: " + gatoDb.score1);
-        Debug.Log("Score2: " + gatoDb.score2);
-        Debug.Log("Jugador 1: " + gatoDb.p1);
-        Debug.Log("Jugador 2: " + gatoDb.p2);
-        Debug.Log("Board: " + string.Join(", ", gatoDb.board));*/
+                // ✅ Base de datos actualizada
+                gatoDb = JsonUtility.FromJson<GatoDbJs>(JsDataBase.downloadHandler.text);
+            }
+            else
+            {
+                Debug.LogError("Error al descargar JSON: " + JsDataBase.error);
+            }
+        }
     }
 }

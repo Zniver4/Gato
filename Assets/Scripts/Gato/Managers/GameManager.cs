@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     private string playerSide;
     private string playerID;
     
-    GatoDb gameData;
+    GatoDbJs gameData;
     SetID setID;
 
     int turns = 0;
@@ -114,7 +114,7 @@ public class GameManager : MonoBehaviour
         playerSide = (playerSide == "X") ? "O" : "X";
     }*/
 
-    IEnumerator GetStatus()
+    /*IEnumerator GetStatus()
     {
         UnityWebRequest www = UnityWebRequest.Get("http://localhost/gato/gato.php?action=1");
         yield return www.Send();
@@ -142,7 +142,7 @@ public class GameManager : MonoBehaviour
             //Or Retrive Results as Binary Data
             byte[] results = www.downloadHandler.data;
         }
-    }
+    }*/
     
     IEnumerator TrowStatus()
     {

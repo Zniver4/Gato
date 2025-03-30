@@ -168,6 +168,17 @@ app.get("/action/init", (req, res) => {
     res.send(gato.toString());
 });
 
+app.get("/action/data", (req, res) => {
+    try {
+        const data = fs.readFileSync(gato.db, "utf8");
+        res.setHeader("Content-Type", "application/json");
+        res.send(data);
+    } catch (error) {
+        res.status(500).send({ error: "Error al leer la base de datos." });
+    }
+});
+
+
 app.get("/status/:id", (req, res) => {
     const id = req.params.id;
     gato.loadDb();

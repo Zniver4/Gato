@@ -1,10 +1,11 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 
 [System.Serializable]
-public class GatoDbjs
+public class GatoDbJs
 {
     public int round;
     public int actual;
@@ -15,42 +16,85 @@ public class GatoDbjs
     public string p2;
 }
 
-
 public class jsManager : MonoBehaviour
 {
-    /*public Button[] Board;*/
-    GatoDbjs gatoDbjs;
+    GatoDbJs gatoDbjs;
+    SetID setID;
 
-    public void Start()
+    int position;
+    string MyID;
+
+    
+
+    void Awake()
     {
-        StartCoroutine(initDb());
-        StartCoroutine(getDb());
+        Check.OnPress += SetAction;
+        SetID.SetIDGame += ID;
     }
-    IEnumerator initDb()
+
+    private void Start()
     {
+        StartCoroutine(StartDb());
+    }
 
-        using (UnityWebRequest www = UnityWebRequest.Get("http://localhost:8080/action/init"))
+    void SetAction(int boardPosition)
+    {
+        position = boardPosition;
+        StartCoroutine(SetPlay());
+    }
+
+    void ID(string IDGame)
+    {
+        MyID = IDGame;
+    }
+
+    IEnumerator StartDb()
+    {
+        using UnityWebRequest GameStart = UnityWebRequest.Get("http://localhost:8080/action/init");
+        yield return GameStart.SendWebRequest();
+
+        if (GameStart.result == UnityWebRequest.Result.Success)
         {
-            yield return www.SendWebRequest();
+            Debug.Log("✅ Game Started Correctly: " + GameStart.downloadHandler.text);
 
-            gatoDbjs = JsonUtility.FromJson<GatoDbjs>(www.downloadHandler.text);
-
-            Debug.Log("se obtuvo base de datos: " + gatoDbjs.actual);
-            Debug.Log("Tablero: " + string.Join(", ", gatoDbjs.board));
+            StartCoroutine(GetDataBase());
+        }
+        else
+        {
+            Debug.LogError("Error, Game Couldn't Start: " + GameStart.error);
         }
     }
-    IEnumerator getDb()
+
+    IEnumerator GetDataBase()
     {
-
-        using (UnityWebRequest www = UnityWebRequest.Get("http://localhost:8080/action/db"))
+        while (true)
         {
-            yield return www.SendWebRequest();
+            using UnityWebRequest JsDataBase = UnityWebRequest.Get("http://localhost:8080/action/data");
+            {
+                yield return JsDataBase.SendWebRequest();
 
-            gatoDbjs = JsonUtility.FromJson <GatoDbjs> (www.downloadHandler.text);
+                if (JsDataBase.result == UnityWebRequest.Result.Success)
+                {
+                    Debug.Log("JSON recibido: " + JsDataBase.downloadHandler.text);
 
-            Debug.Log("se obtuvo base de datos: " + gatoDbjs.actual);
-            Debug.Log("Tablero: " + string.Join(", ", gatoDbjs.board));
+                    // ✅ Base de datos actualizada
+                    gatoDbjs = JsonUtility.FromJson<GatoDbJs>(JsDataBase.downloadHandler.text);
+                }
+                else
+                {
+                    Debug.LogError("Error al descargar JSON: " + JsDataBase.error);
+                }
+
+                yield return new WaitForSeconds(2);
+            }
         }
+    }
+
+    IEnumerator SetPlay()
+    {
+        using UnityWebRequest SetPlay = UnityWebRequest.Get("http://localhost:8080/turn/" + MyID + "/" + position);
+        yield return SetPlay.SendWebRequest();
+        Debug.Log("Play Sent");
     }
 
 
