@@ -18,7 +18,7 @@ public class Check : MonoBehaviour
 
     private GameManager gameManager;
 
-    GatoDbJs gatoDb;
+    JS_DataBase js_DataBase;
     SetID setID;
     //phpManager phpManager;
 
@@ -35,14 +35,14 @@ public class Check : MonoBehaviour
 
     public void setSpace()
     {
-        if (MyID == "id2" && gatoDb.actual == 2)
+        if (MyID == "id2" && js_DataBase.actual == 2)
         {
             buttonText.text = "O";
             button.interactable = false;
             OnPress.Invoke(checkPosition);
         }
 
-        if (MyID == "id1" && gatoDb.actual == 1)
+        if (MyID == "id1" && js_DataBase.actual == 1)
         {
             buttonText.text = "X";
             button.interactable = false;
@@ -54,7 +54,7 @@ public class Check : MonoBehaviour
     {
         MyID = setmyID;
         print("Ckeck ID: " + MyID);
-        Debug.Log("GatoDbJs Actual: " + gatoDb.actual);
+        Debug.Log("JS_DataBase Actual: " + js_DataBase.actual);
     }
 
     IEnumerator GetDataBasejs()
@@ -65,10 +65,10 @@ public class Check : MonoBehaviour
 
             if (JsDataBase.result == UnityWebRequest.Result.Success)
             {
-                Debug.Log("JSON recibido: " + JsDataBase.downloadHandler.text);
+                //Debug.Log("JSON recibido: " + JsDataBase.downloadHandler.text);
 
                 // ✅ Base de datos actualizada
-                gatoDb = JsonUtility.FromJson<GatoDbJs>(JsDataBase.downloadHandler.text);
+                js_DataBase = JsonUtility.FromJson<JS_DataBase>(JsDataBase.downloadHandler.text);
             }
             else
             {

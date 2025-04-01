@@ -7,14 +7,14 @@ public class SetStatus : MonoBehaviour
 {
     public Button[] Board;
 
-    GatoDbJs gatoDb;
+    GatoDb gatoDb;
 
     private void Start()
     {
-        StartCoroutine(GetDataBasejs());
+        StartCoroutine(GetStatus());
     }
 
-    IEnumerator GetDataBasejs()
+    /*IEnumerator GetDataBasejs()
     {
         using UnityWebRequest JsDataBase = UnityWebRequest.Get("http://localhost:8080/action/data");
         {
@@ -34,13 +34,13 @@ public class SetStatus : MonoBehaviour
                 Debug.LogError("Error al descargar JSON: " + JsDataBase.error);
             }
         }
-    }
+    }*/
 
     IEnumerator GetStatus()
     {
         while (gatoDb.board == null)
         {
-            Debug.Log("⏳ Esperando datos de JS...");
+            Debug.Log("⏳ Esperando datos de PHP...");
             yield return new WaitForSeconds(1);
         }
 

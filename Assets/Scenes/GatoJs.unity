@@ -636,7 +636,6 @@ GameObject:
   m_Component:
   - component: {fileID: 324331433}
   - component: {fileID: 324331434}
-  - component: {fileID: 324331435}
   m_Layer: 0
   m_Name: GatoManager
   m_TagString: Untagged
@@ -673,28 +672,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MyID: 
   gameObject: {fileID: 1504372797}
---- !u!114 &324331435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 324331432}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fbe74df554608a4d8f1f9acea36a623, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Board:
-  - {fileID: 48773335}
-  - {fileID: 1714327504}
-  - {fileID: 2032323439}
-  - {fileID: 1249139071}
-  - {fileID: 1862108601}
-  - {fileID: 1440655229}
-  - {fileID: 744759036}
-  - {fileID: 2027644601}
-  - {fileID: 1713040844}
 --- !u!114 &446818302 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5473616817641888037, guid: 0391705f4487c2a4cb0a2d2604d4adcb, type: 3}
@@ -976,6 +953,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08c1a0bdd63bb6745a408485debc3440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Board:
+  - {fileID: 48773335}
+  - {fileID: 1714327504}
+  - {fileID: 2032323439}
+  - {fileID: 1249139071}
+  - {fileID: 1862108601}
+  - {fileID: 1440655229}
+  - {fileID: 744759036}
+  - {fileID: 2027644601}
+  - {fileID: 1713040844}
 --- !u!114 &654437332 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5473616817641888037, guid: 0391705f4487c2a4cb0a2d2604d4adcb, type: 3}
